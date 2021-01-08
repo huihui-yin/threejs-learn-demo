@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>My first three.js app</title>
+		<style>
+			/* body { margin: 0; } */
+			*{
+				margin: 0;
+				padding: 0
+			}
+		</style>
+	</head>
+	<body>
+		<script src="js/three.js"></script>
+		<script>
+			/* 初始化 */
+			const scene = new THREE.Scene();
+			// PerspectiveCamera:透视摄像机，参数：视野角度，长宽比，进截面, 远截面
+			const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+			// WebGLRenderder: 渲染器
+			const renderer = new THREE.WebGLRenderer();
+			// 设置渲染器尺寸，此处设置的是填满整个视图区域
+			renderer.setSize( window.innerWidth, window.innerHeight);
+			// 将renderder.domElement（renderder渲染器的dom元素添加到文档中
+			document.body.appendChild(renderer.domElement);
+			/* 添加立方体 */
+			// BoxGeometry:立方体对象
+			const geometry = new THREE.BoxGeometry();
+			// 初始化材质
+			const material = new THREE.MeshBasicMaterial({color: 0x00ff00});
+			// Mesh: 网格, 将立方体和材料添加到网格上
+			const cube = new THREE.Mesh(geometry, material);
+			// 将网格对象放在场景中（默认被添加到（0，0，0）坐标）
+			scene.add(cube);
+			// 避免摄像机和立方体重叠
+			camera.position.z = 5;
+			/* 进行渲染循环（真正的渲染） */
+			function animate() {
+				// requestAnimationFrame相比setInterval优点：当用户切换到其他标签页时会被暂停从而节约cpu资源和电池寿命
+				requestAnimationFrame(animate);
+				cube.rotation.x += 0.01;
+				cube.rotation.y += 0.01;
+				renderer.render(scene, camera)
+			}
+			animate();
+			/* 使立方体动起来 */
+		</script>
+	</body>
+</html>
